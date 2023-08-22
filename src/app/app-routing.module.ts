@@ -6,15 +6,23 @@ import { CommandPromptComponent } from './components/command-prompt/command-prom
 import { TestimonalsComponent } from './components/testimonals/testimonals.component';
 
 const routes: Routes = [
-  {path:'',redirectTo:'home', pathMatch:'full'},
-  {path:'home',component:HomeComponent},
-  {path:'skills',component:SkillsComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: 'home', component: HomeComponent },
+  { path: 'skills', component: SkillsComponent },
   { path: 'command-prompt', component: CommandPromptComponent },
-  {path:'testimonals',component:TestimonalsComponent}
+  { path: 'testimonals', component: TestimonalsComponent },
+  {
+    path: 'projects',
+    loadChildren: () =>
+      import('../app/modules/projects/projects.module').then(
+        (x) => x.ProjectsModule
+      ),
+  },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}
