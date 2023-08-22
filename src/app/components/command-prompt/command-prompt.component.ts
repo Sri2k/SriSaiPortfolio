@@ -1,30 +1,46 @@
-import { NavigationEnd, Router } from '@angular/router';
-import { Component } from '@angular/core';
+import { NavigationEnd, NavigationStart, Router } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { Stack } from 'src/app/helpers/Stack';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-command-prompt',
   templateUrl: './command-prompt.component.html',
   styleUrls: ['./command-prompt.component.scss']
 })
-export class CommandPromptComponent {
+export class CommandPromptComponent  {
   input: string = '';
   output: string = '';
   availableCommands: string[] = ['home','skills', 'help','testimonals'];
-  availableProjectsCommands:string[] = ['tictoctoe']
+  availableProjectsCommands:string[] = ['tictoctoe',]
   isOpen: boolean = true;
-  previousInput:string=''
-constructor(private router:Router){}
+  previousInput:string='';
+  inputsStack: Stack<string> = new Stack<string>();
+  historyIndex: number = -1;
+ formattedCommands = this.availableCommands.map(command => `[${command}]`);
+ formattedProjectCommands = this.availableProjectsCommands.map(command => `[${command}]`);
+
+
+ constructor(private router: Router) {
+  // Subscribe to router events only once in the constructor
+  this.router.events.subscribe((event) => {
+    if (event instanceof NavigationEnd) {
+      // Navigation has completed, update the message
+      this.isOpen = true;
+    }
+  });
+}
 
   handleCommand() {
     const command = this.input.trim().toLowerCase();
-
+    this.inputsStack.push(command);
     if(command == 'help'){
-      this.output = `Available commands:\n${this.availableCommands.join(', ')}`;
+      this.output = `Available commands:\n${this.formattedCommands.join(', ')}`;
     }
     else if(this.availableCommands.includes(command)){
       this.output = `Redirecting to ${command} url...`;
       this.router.navigate([command]);
-      this.router.events.subscribe((event) => {
+     this.router.events.subscribe((event) => {
         if (event instanceof NavigationEnd) {
             // Navigation has completed, update the message
             this.isOpen = false;
@@ -32,10 +48,11 @@ constructor(private router:Router){}
     });
     }
     else if(command=='projects'){
-      this.output = `Available projects: ${this.availableProjectsCommands.join(', ')}`;
+      this.output = `Available projects: ${this.formattedProjectCommands.join(', ')}`;
     }
     else if(this.previousInput=='projects')
     {
+    
       this.output = `Redirecting to ${command} url...`;
       this.router.navigate(['projects',command]);
       this.router.events.subscribe((event) => {
@@ -50,32 +67,33 @@ constructor(private router:Router){}
     else {
       this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
     }
-  
-    // if (command === 'help') {
-    //   this.output = `Available commands:\n${this.availableCommands.join(', ')}`;
-    // } else if (this.availableCommands.includes(command)) {
-    //   if (command === 'projects') {
-    //     this.output = `Type 'list' to see the list of projects.`;
-    //   } else {
-    //     this.output = `Redirecting to ${command} page...`;
-    //     this.router.navigate([command]);
-    //     this.isOpen = false;
-    //   }
-    // } else if (command === 'projects' && this.input === 'list') {
-    //   this.output = `Available projects: ${this.availableProjectsCommands.join(', ')}`;
-    // } else if (this.availableProjectsCommands.includes(command)) {
-    //   this.output = `Redirecting to ${command} project...`;
-    //   this.router.navigate(['projects', command]);
-    //   this.isOpen = false;
-    // } else {
-    //   this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
-    // }
     
     
     this.previousInput=command
     this.input = '';
   }
+  navigateHistory(direction: 'up' | 'down'): void {
+    if (this.inputsStack.isEmpty()) return;
+  
+    if (direction === 'up') {
+      this.historyIndex = Math.min(this.historyIndex + 1, this.inputsStack.size() - 1);
+    } else if (direction === 'down') {
+      this.historyIndex = Math.max(this.historyIndex - 1, -1);
+    }
+  
+    if (this.historyIndex === -1) {
+      this.input = '';
+    } else {
+      this.input = this.inputsStack.items[this.historyIndex] || '';
+    }
+  }
+  
+
+
   closeCommandPrompt() {
     this.isOpen = false; // Set isOpen to false to hide the component
   }
+
+ 
 }
+
