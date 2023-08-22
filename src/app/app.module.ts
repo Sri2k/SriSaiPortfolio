@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { CommandPromptComponent } from './components/command-prompt/command-prompt.component';
 import { FormsModule } from '@angular/forms';
+import { SkillsComponent } from './components/skills/skills.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    CommandPromptComponent
+    CommandPromptComponent,
+    SkillsComponent
   ],
   imports: [
     BrowserModule,

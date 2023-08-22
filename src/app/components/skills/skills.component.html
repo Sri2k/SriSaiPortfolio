@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <h1 class="mb-4">To know my skills hover on...</h1>
+
+  <div class="cards">
+    <div class="card card-one bg-primary" *ngFor="let skill of skillsArray">
+      <h2 class="card-title">{{ skill.cardTitle }}</h2>
+      <p class="date">{{ skill.date }}</p>
+      <p class="description">
+        {{ skill.description }}
+      </p>
+    </div>
+  </div>
+</div>

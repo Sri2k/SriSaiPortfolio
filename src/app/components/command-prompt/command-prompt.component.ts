@@ -11,12 +11,14 @@ export class CommandPromptComponent {
   output: string = '';
   availableCommands: string[] = ['skills', 'help'];
 
+constructor(private router:Router){}
+
   handleCommand() {
     const command = this.input.trim().toLowerCase();
     switch (command) {
       case 'skills':
         this.output = 'Redirecting to skills page...';
-        // Navigate to skills page using Angular router
+        this.router.navigate(['skills'])
         break;
       case 'help':
         this.output = `Available commands:\n${this.availableCommands.join(', ')}`;
