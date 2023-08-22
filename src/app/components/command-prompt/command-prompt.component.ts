@@ -9,23 +9,22 @@ import { Component } from '@angular/core';
 export class CommandPromptComponent {
   input: string = '';
   output: string = '';
-  availableCommands: string[] = ['skills', 'help'];
-
+  availableCommands: string[] = ['home','skills', 'help'];
+  
 constructor(private router:Router){}
 
   handleCommand() {
     const command = this.input.trim().toLowerCase();
-    switch (command) {
-      case 'skills':
-        this.output = 'Redirecting to skills page...';
-        this.router.navigate(['skills'])
-        break;
-      case 'help':
-        this.output = `Available commands:\n${this.availableCommands.join(', ')}`;
-        break;
-      default:
-        this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
+  
+    if (command === 'help') {
+      this.output = `Available commands:\n${this.availableCommands.join(', ')}`;
+    } else if (this.availableCommands.includes(command)) {
+      this.output = `Redirecting to ${command} page...`;
+      this.router.navigate([command]);
+    } else {
+      this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
     }
+
     this.input = '';
   }
 }
