@@ -1,0 +1,40 @@
+
+<div class="container-fluid bg-white d-flex align-items-center justify-content-center flex-column">
+    <h1 class="text-center mt-2">
+        Review from Co-Workers
+        <br>
+        Recommendations
+    </h1>
+    <div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+       
+        <div class="carousel-inner">
+            <div *ngFor="let testimonyData of testimonals;let i = index">
+                <div class="carousel-item item" [class]="testimonyData.color" [class.active]="i === 0"> 
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div id="content">
+                            <div class="testimonial">
+                                <blockquote>
+                                    {{testimonyData.testimony}}
+                                </blockquote>
+                                <div></div>
+                                <p>{{testimonyData.name}} &mdash; {{testimonyData.personInfo}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+
+

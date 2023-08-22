@@ -8,6 +8,7 @@ import { CommandPromptComponent } from './components/command-prompt/command-prom
 import { FormsModule } from '@angular/forms';
 import { SkillsComponent } from './components/skills/skills.component';
 import { ArrowComponent } from './components/arrow/arrow.component';
+import { TestimonalsComponent } from './components/testimonals/testimonals.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { ArrowComponent } from './components/arrow/arrow.component';
     HomeComponent,
     CommandPromptComponent,
     SkillsComponent,
-    ArrowComponent
+    ArrowComponent,
+    TestimonalsComponent
   ],
   imports: [
     BrowserModule,

@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class CommandPromptComponent {
   input: string = '';
   output: string = '';
-  availableCommands: string[] = ['home','skills', 'help'];
+  availableCommands: string[] = ['home','skills', 'help','testimonals'];
   isOpen: boolean = true;
   
 constructor(private router:Router){}
