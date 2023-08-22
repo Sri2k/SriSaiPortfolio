@@ -1,0 +1,9 @@
+<div class="arrow-container">
+    <button (click)="toggleCommandPrompt()" class="arrow-button">
+      <span class="arrow-icon bi bi-arrow-up"></span>
+    </button>
+  </div>
+  
+  <!-- Conditionally render the CommandPromptComponent -->
+  <app-command-prompt *ngIf="isCommandPromptOpen"></app-command-prompt>
+  

@@ -7,13 +7,15 @@ import { HomeComponent } from './components/home/home.component';
 import { CommandPromptComponent } from './components/command-prompt/command-prompt.component';
 import { FormsModule } from '@angular/forms';
 import { SkillsComponent } from './components/skills/skills.component';
+import { ArrowComponent } from './components/arrow/arrow.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     CommandPromptComponent,
-    SkillsComponent
+    SkillsComponent,
+    ArrowComponent
   ],
   imports: [
     BrowserModule,

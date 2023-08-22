@@ -1,6 +1,13 @@
-<div class="terminal">
-    <pre class="output textboxid">{{ output }}</pre>
-    <span class="textboxid">></span><input class="input textboxid"[(ngModel)]="input" (keyup.enter)="handleCommand()" />
-    <div class="available-commands textboxid">Available commands: {{ availableCommands.join(', ') }}</div>
+
+  <div class="command-prompt-container" *ngIf="isOpen">
+    <!-- Close button -->
+    <button (click)="closeCommandPrompt()">Close</button>
+    <div class="terminal">
+      <pre class="output textboxid">{{ output }}</pre>
+      <span class="textboxid">></span><input class="input textboxid"[(ngModel)]="input" (keyup.enter)="handleCommand()" />
+      <div class="available-commands textboxid">Available commands: {{ availableCommands.join(', ') }}</div>
+    </div>
+  
   </div>
+  
   

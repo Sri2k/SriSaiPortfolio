@@ -10,6 +10,7 @@ export class CommandPromptComponent {
   input: string = '';
   output: string = '';
   availableCommands: string[] = ['home','skills', 'help'];
+  isOpen: boolean = true;
   
 constructor(private router:Router){}
 
@@ -21,10 +22,14 @@ constructor(private router:Router){}
     } else if (this.availableCommands.includes(command)) {
       this.output = `Redirecting to ${command} page...`;
       this.router.navigate([command]);
+      this.isOpen = false;
     } else {
       this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
     }
 
     this.input = '';
+  }
+  closeCommandPrompt() {
+    this.isOpen = false; // Set isOpen to false to hide the component
   }
 }
