@@ -1,16 +1,16 @@
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Stack } from 'src/app/helpers/Stack';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-command-prompt',
   templateUrl: './command-prompt.component.html',
   styleUrls: ['./command-prompt.component.scss']
 })
-export class CommandPromptComponent  {
+export class CommandPromptComponent  implements OnInit{
   input: string = '';
   output: string = '';
+  // toload:boolean = false;
   availableCommands: string[] = ['home','skills', 'help','testimonals'];
   availableProjectsCommands:string[] = ['tictoctoe',]
   isOpen: boolean = true;
@@ -22,14 +22,19 @@ export class CommandPromptComponent  {
 
 
  constructor(private router: Router) {
-  // Subscribe to router events only once in the constructor
-  this.router.events.subscribe((event) => {
-    if (event instanceof NavigationEnd) {
-      // Navigation has completed, update the message
-      this.isOpen = true;
-    }
-  });
+  
 }
+  ngOnInit(): void {
+    // this.router.events.subscribe((routerEvent:any)=>{
+    //   if(routerEvent instanceof NavigationStart){
+    //     this.toload =true;
+    //   }
+    //   if(routerEvent instanceof NavigationEnd){
+    //     this.toload =false;
+    //   }
+    // })
+  
+  }
 
   handleCommand() {
     const command = this.input.trim().toLowerCase();
@@ -40,12 +45,14 @@ export class CommandPromptComponent  {
     else if(this.availableCommands.includes(command)){
       this.output = `Redirecting to ${command} url...`;
       this.router.navigate([command]);
-     this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-            // Navigation has completed, update the message
-            this.isOpen = false;
-        }
-    });
+      console.log(this.isOpen)
+      this.isOpen = false;
+    //  this.router.events.subscribe((event) => {
+    //     if (event instanceof NavigationEnd) {
+    //         // Navigation has completed, update the message
+    //         this.isOpen = false;
+    //     }
+    // });
     }
     else if(command=='projects'){
       this.output = `Available projects: ${this.formattedProjectCommands.join(', ')}`;
@@ -55,12 +62,13 @@ export class CommandPromptComponent  {
     
       this.output = `Redirecting to ${command} url...`;
       this.router.navigate(['projects',command]);
-      this.router.events.subscribe((event) => {
-        if (event instanceof NavigationEnd) {
-            // Navigation has completed, update the message
-            this.isOpen = false;
-        }
-      });
+      this.isOpen = false;
+      // this.router.events.subscribe((event) => {
+      //   if (event instanceof NavigationEnd) {
+      //       // Navigation has completed, update the message
+      //       this.isOpen = false;
+      //   }
+      // });
 
 
     }
@@ -91,7 +99,7 @@ export class CommandPromptComponent  {
 
 
   closeCommandPrompt() {
-    this.isOpen = false; // Set isOpen to false to hide the component
+    this.isOpen = !this.isOpen; // Set isOpen to false to hide the component
   }
 
  
