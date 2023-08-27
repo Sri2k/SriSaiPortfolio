@@ -1,1 +1,64 @@
-<p>tic-toc-toe works!</p>
+<div class="container-fluid">
+    <div class="row" style="height:10vh;">
+        <h1 class="text-center">TIC TOC TOE</h1>
+    </div>
+    
+  <div class="row d-flex align-items-center justify-content-center" style="height:80vh;">
+    <div class="col-3">
+        <!-- form -->
+        <div>
+          <form [formGroup]="formGroup" (ngSubmit)="toEnable()">
+            <label class="mb-2"><h3>Enter player details:</h3></label>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" formControlName="playerO" placeholder="Enter player name" [attr.disabled]="enable ? true : null">
+                <label for="floatingInput">Player-O</label>
+              </div>
+            <div class="form-floating mb-3">
+                <input type="email" class="form-control" id="floatingInput" formControlName="playerX" placeholder="Enter player name" [attr.disabled]="enable ? true : null">
+                <label for="floatingInput">Player-X</label>
+              </div>
+              <button class="btn btn-danger">
+                let's start
+              </button>
+            </form>
+            <div *ngIf="formGroup.invalid && (formGroup.get('playerO')?.dirty || formGroup.get('playerX')?.dirty)">
+                <div class="text-danger" *ngIf="formGroup.hasError('required', 'playerO') || formGroup.hasError('required', 'playerX')">Player names are required.</div>
+            </div>
+        </div>
+        <!-- currentplayer  -->
+        <div *ngIf="enable">
+            <h3>Current Player:{{symbol}}</h3>
+        </div>
+        
+    </div>
+    <div class="col-9">
+      <div class="text-center" *ngIf="enable">
+        <button
+          class="btn btn-danger touchPad"
+          (click)="onClick(i)"
+          *ngFor="let value of array; let i = index"
+        >
+          <h1 class="text-warning">{{ value }}</h1>
+        </button>
+      </div>
+    </div>
+    
+  </div>
+  <div class="row" style="height:10vh;">
+    <h5 class="text-center">{{ message }}</h5>
+    <div *ngIf="congratsCheck">
+    <h5 class="text-center" >Congratulations: {{winner}} <span (click)="refreshPage();" class="btn btn-danger">play again</span> </h5>
+        
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  
+</div>

@@ -5,7 +5,7 @@
     <div class="terminal">
       <pre class="output textboxid">{{ output }}</pre>
       <span class="textboxid">></span><input class="input textboxid"[(ngModel)]="input" (keyup.enter)="handleCommand()" (keydown.arrowUp)="navigateHistory('up')" (keydown.arrowDown)="navigateHistory('down')" />
-      <div class="available-commands textboxid">Available commands: {{ availableCommands.join(', ') }}</div>
+      <div class="available-commands textboxid">Available commands: {{ formattedMasterCommands.join(', ') }}</div>
     </div>
   </div>
 

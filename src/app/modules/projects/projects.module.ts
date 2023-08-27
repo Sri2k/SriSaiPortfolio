@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ProjectsComponent } from './projects.component';
 import { RouterModule } from '@angular/router';
 import { TicTocToeComponent } from './tic-toc-toe/tic-toc-toe.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 const projectRoutes = [
   {path:'',component:ProjectsComponent},
   {path:'tictoctoe',component:TicTocToeComponent}
@@ -15,7 +16,10 @@ const projectRoutes = [
     TicTocToeComponent
   ],
   imports: [
-    CommonModule,RouterModule.forChild(projectRoutes)
+    ReactiveFormsModule,
+    CommonModule,
+    FormsModule,
+    RouterModule.forChild(projectRoutes),
   ]
 })
 export class ProjectsModule { }

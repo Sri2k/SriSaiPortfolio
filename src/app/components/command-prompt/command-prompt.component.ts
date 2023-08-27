@@ -1,6 +1,7 @@
 import { NavigationEnd, NavigationStart, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { Stack } from 'src/app/helpers/Stack';
+import { ContactsMapping } from 'src/app/interfaces/ContactsMapping ';
 
 @Component({
   selector: 'app-command-prompt',
@@ -11,14 +12,28 @@ export class CommandPromptComponent  implements OnInit{
   input: string = '';
   output: string = '';
   // toload:boolean = false;
+  masteravailableCommands: string[] = ['home','skills', 'help','testimonals','projects','contact'];
+
   availableCommands: string[] = ['home','skills', 'help','testimonals'];
-  availableProjectsCommands:string[] = ['tictoctoe',]
+  //availableProjectsCommands:string[] = ['tictoctoe']
+  availableProjectsCommands:string[] = ['tictoctoe']
+
+  availableContactsCommands:string[] = ['email','linkedin','instagram']
+ availableContactsMapping: ContactsMapping = {
+    "email":"gandusrisai@gmail.com",
+    "linkedin": "https://www.w3schools.com/",
+    "instagram": "https://www.w4schools.com/"
+  };
+  
+
   isOpen: boolean = true;
   previousInput:string='';
   inputsStack: Stack<string> = new Stack<string>();
   historyIndex: number = -1;
+ formattedMasterCommands = this.masteravailableCommands.map(command => `[${command}]`);
  formattedCommands = this.availableCommands.map(command => `[${command}]`);
  formattedProjectCommands = this.availableProjectsCommands.map(command => `[${command}]`);
+ formattedContactCommands = this.availableContactsCommands.map(command => `[${command}]`);
 
 
  constructor(private router: Router) {
@@ -40,7 +55,7 @@ export class CommandPromptComponent  implements OnInit{
     const command = this.input.trim().toLowerCase();
     this.inputsStack.push(command);
     if(command == 'help'){
-      this.output = `Available commands:\n${this.formattedCommands.join(', ')}`;
+      this.output = `Available commands:\n${this.masteravailableCommands.join(', ')}`;
     }
     else if(this.availableCommands.includes(command)){
       this.output = `Redirecting to ${command} url...`;
@@ -55,12 +70,12 @@ export class CommandPromptComponent  implements OnInit{
     // });
     }
     else if(command=='projects'){
-      this.output = `Available projects: ${this.formattedProjectCommands.join(', ')}`;
+      this.output = `Available project commands: ${this.formattedProjectCommands.join(', ')}`;
     }
     else if(this.previousInput=='projects')
     {
-    
-      this.output = `Redirecting to ${command} url...`;
+      if(this.availableProjectsCommands.includes(command)){
+        this.output = `Redirecting to ${command} url...`;
       this.router.navigate(['projects',command]);
       this.isOpen = false;
       // this.router.events.subscribe((event) => {
@@ -69,8 +84,28 @@ export class CommandPromptComponent  implements OnInit{
       //       this.isOpen = false;
       //   }
       // });
-
-
+      }
+      else {
+        this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
+      }
+    }
+    else if(command=='contact'){
+      this.output = `Available contact commands: ${this.formattedContactCommands.join(', ')}`;
+    }
+    else if(this.previousInput=='contact')
+    {
+      if(this.availableContactsCommands.includes(command)){
+      this.output = `Redirecting to ${command} url...`;
+      for (const key in this.availableContactsMapping) {
+        if (this.availableContactsMapping.hasOwnProperty(key)) {
+          window.open(this.availableContactsMapping[command], "_blank");
+        }
+      }
+      this.isOpen = false;
+    }
+    else {
+      this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
+    }
     }
     else {
       this.output = `Command not recognized: ${command}\nType 'help' for a list of commands.`;
